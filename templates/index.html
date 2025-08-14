@@ -1,0 +1,1061 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellnessAI - Your Health Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --bg-light: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --bg-dark: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            --text-light: #333;
+            --text-dark: #ffffff;
+            --card-light: rgba(255, 255, 255, 0.9);
+            --card-dark: rgba(255, 255, 255, 0.1);
+            --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-size: 16px;
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            min-height: 100vh;
+            transition: var(--transition);
+            font-size: var(--font-size);
+        }
+
+        body.dark-mode {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        body.large-text {
+            --font-size: 18px;
+        }
+
+        body.xl-text {
+            --font-size: 20px;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 320px;
+            z-index: 1000;
+            background: var(--card-light);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .dark-mode .header {
+            background: var(--card-dark);
+        }
+
+        .header-left h2 {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .settings-btn,
+        .profile-btn,
+        .dark-mode-toggle {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+        }
+
+        .settings-btn:hover,
+        .profile-btn:hover,
+        .dark-mode-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-dark);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 320px;
+            height: 100vh;
+            background: var(--card-light);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            box-shadow: var(--shadow-light);
+            overflow-y: auto;
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .dark-mode .sidebar {
+            background: var(--card-dark);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .logo h1 {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Login Form */
+        .login-form {
+            background: var(--accent-gradient);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .login-form h3 {
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+            transform: scale(1.02);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* User Profile Section */
+        .user-profile {
+            background: var(--success-gradient);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            color: white;
+            text-align: center;
+            display: none;
+        }
+
+        .user-profile.active {
+            display: block;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .profile-info h3 {
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+
+        .profile-info p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Navigation */
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 16px;
+            text-decoration: none;
+            color: inherit;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateX(5px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .nav-link .icon {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 320px;
+            margin-top: 80px;
+            padding: 40px;
+            overflow-y: auto;
+            transition: var(--transition);
+            min-height: calc(100vh - 80px);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-light);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-light);
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .dark-mode .card {
+            background: var(--card-dark);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-dark);
+        }
+
+        /* Profile Interface */
+        .profile-interface {
+            display: grid;
+            gap: 20px;
+        }
+
+        .profile-section {
+            background: var(--card-light);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+        }
+
+        .dark-mode .profile-section {
+            background: var(--card-dark);
+        }
+
+        .profile-section h3 {
+            margin-bottom: 20px;
+            color: #667eea;
+            font-size: 1.3rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .profile-image-section {
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .change-photo-btn {
+            background: var(--secondary-gradient);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .change-photo-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            padding: 12px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .dark-mode .input-group input,
+        .dark-mode .input-group select,
+        .dark-mode .input-group textarea {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Settings Interface */
+        .settings-interface {
+            display: grid;
+            gap: 25px;
+        }
+
+        .settings-group {
+            background: var(--card-light);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+        }
+
+        .dark-mode .settings-group {
+            background: var(--card-dark);
+        }
+
+        .settings-group h3 {
+            margin-bottom: 20px;
+            color: #667eea;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .settings-group h3 .icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .setting-description {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .setting-control {
+            margin-left: 20px;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: #ccc;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .toggle-switch.active {
+            background: #667eea;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            border-radius: 50%;
+            background: white;
+            top: 2px;
+            left: 2px;
+            transition: var(--transition);
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(25px);
+        }
+
+        /* Range Slider */
+        .range-slider {
+            width: 150px;
+            height: 5px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .range-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Color Picker */
+        .color-picker {
+            width: 50px;
+            height: 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Chatbot Interface */
+        .chatbot-container {
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 16px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .dark-mode .chat-messages {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 18px;
+            max-width: 80%;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .message.user {
+            background: var(--primary-gradient);
+            color: white;
+            margin-left: auto;
+        }
+
+        .message.bot {
+            background: var(--accent-gradient);
+            color: white;
+            margin-right: auto;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .dark-mode .chat-input input {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .send-btn {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 15px 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: var(--border-radius);
+            color: white;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 10px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-dark);
+        }
+
+        .save-btn {
+            background: var(--success-gradient);
+        }
+
+        .cancel-btn {
+            background: var(--warning-gradient);
+        }
+
+        /* Emergency Button */
+        .emergency-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-dark);
+            animation: pulse 2s infinite;
+            z-index: 999;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 107, 107, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+            }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--card-light);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        .dark-mode .modal-content {
+            background: var(--card-dark);
+            color: white;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #667eea;
+        }
+
+        /* Image Section */
+        .image-section {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .wellness-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+        }
+
+        .wellness-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .header {
+                left: 0;
+                margin-left: 320px;
+            }
+            
+            .profile-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+            
+            .header {
+                left: 0;
+                margin-left: 0;
+            }
+            
+            .header-right {
+                gap: 10px;
+            }
+            
+            .settings-btn,
+            .profile-btn,
+            .dark-mode-toggle {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .emergency-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card,
+            .profile-section,
+            .settings-group {
+                padding: 20px;
+            }
+            
+            .modal-content {
+                margin: 10% auto;
+                padding: 20px;
+            }
+            
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .setting-control {
+                margin-left: 0;
+            }
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+            <h2 id="page-title">Medical FAQ Chatbot</h2>
+        </div>
+        <div class="header-right">
+            <button class="settings-btn" onclick="showSection('settings')">⚙️ Settings</button>
+            <button class="profile-btn" onclick="showSection('profile')">👤 Profile</button>
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <!-- Logo -->
+            <div class="logo">
+                <h1>WellnessAI</h1>
+                <p>Your Personal Health Companion</p>
+            </div>
+
+            <!-- Login Form -->
+            <div class="login-form" id="login-form">
+                <h3>🔐 Secure Login</h3>
+                <div class="form-group">
+                    <input type="text" placeholder="Username" id="username">
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" id="password">
+                </div>
+                <button class="login-btn" onclick="handleLogin()">Login</button>
+            </div>
+
+            <!-- User Profile Section (Hidden by default) -->
+            <div class="user-profile" id="user-profile">
+                <div class="profile-avatar" id="profile-avatar">JD</div>
+                <div class="profile-info">
+                    <h3 id="profile-name">John Doe</h3>
+                    <p id="profile-email">john.doe@email.com</p>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-box">
+                        <div class="stat-number" id="wellness-points">245</div>
+                        <div class="stat-label">Points</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="streak-days">12</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link active" onclick="showSection('chatbot')">
+                        <span class="icon">🤖</span>
+                        Medical FAQ Chatbot
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('symptoms')">
+                        <span class="icon">🩺</span>
+                        Symptom Checker
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('mood')">
+                        <span class="icon">😊</span>
+                        Mood Tracker & Journal
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('mental')">
+                        <span class="icon">🧘</span>
+                        Mental Health Exercises
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('emergency')">
+                        <span class="icon">🆘</span>
+                        Emergency Panic Button
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('music')">
+                        <span class="icon">🎵</span>
+                        Mood-Based Music & Quotes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('checklist')">
+                        <span class="icon">📋</span>
+                        Daily Wellness Checklist
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('voice')">
+                        <span class="icon">🎙️</span>
+                        Voice Assistant
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('sleep')">
+                        <span class="icon">😴</span>
+                        Sleep Tracker with Tips
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('locations')">
+                        <span class="icon">📍</span>
+                        Nearby Health Resources
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Medical FAQ Chatbot Section -->
+            <div id="chat
