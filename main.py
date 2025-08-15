@@ -20,7 +20,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 # Use environment variable for Groq API key
-GROQ_API_KEY = os.getenv("GROQ_API_KEY") or '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'
+GROQ_API_KEY = os.getenv("GROQ_API_KEY") 
 client = Groq(api_key=GROQ_API_KEY)
 
 # System prompt for AI
