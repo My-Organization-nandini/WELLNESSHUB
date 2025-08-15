@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WellnessAI - Your Health Companion</title>
+    <title>MindCare - Your Mental Health Companion</title>
     <style>
         * {
             margin: 0;
@@ -11,323 +11,285 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --bg-light: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            --bg-dark: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            --text-light: #333;
-            --text-dark: #ffffff;
-            --card-light: rgba(255, 255, 255, 0.9);
-            --card-dark: rgba(255, 255, 255, 0.1);
-            --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
-            --shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --font-size: 16px;
-            --border-radius: 12px;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-light);
-            color: var(--text-light);
-            min-height: 100vh;
-            transition: var(--transition);
-            font-size: var(--font-size);
-        }
-
-        body.dark-mode {
-            background: var(--bg-dark);
-            color: var(--text-dark);
-        }
-
-        body.large-text {
-            --font-size: 18px;
-        }
-
-        body.xl-text {
-            --font-size: 20px;
-        }
-
-        .container {
-            display: flex;
-            min-height: 100vh;
-            position: relative;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f7f7f8;
+            color: #374151;
+            line-height: 1.6;
         }
 
         /* Header */
         .header {
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 320px;
-            z-index: 1000;
-            background: var(--card-light);
-            backdrop-filter: blur(10px);
-            padding: 15px 20px;
-            box-shadow: var(--shadow-light);
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: var(--transition);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .dark-mode .header {
-            background: var(--card-dark);
-        }
-
-        .header-left h2 {
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header-right {
+        .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
         }
 
-        .settings-btn,
-        .profile-btn,
-        .dark-mode-toggle {
-            background: var(--primary-gradient);
-            border: none;
-            border-radius: var(--border-radius);
-            padding: 10px 15px;
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            cursor: pointer;
-            font-size: 14px;
-            box-shadow: var(--shadow-light);
-            transition: var(--transition);
+            font-size: 18px;
         }
 
-        .settings-btn:hover,
-        .profile-btn:hover,
-        .dark-mode-toggle:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-dark);
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-menu {
+            position: relative;
+        }
+
+        .profile-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #6b7280;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .profile-btn:hover {
+            background: #4b5563;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .dropdown.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f9fafb;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
         }
 
         /* Sidebar */
         .sidebar {
             position: fixed;
-            left: 0;
-            top: 0;
-            width: 320px;
-            height: 100vh;
-            background: var(--card-light);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            box-shadow: var(--shadow-light);
-            overflow-y: auto;
-            transition: var(--transition);
-            z-index: 999;
-        }
-
-        .dark-mode .sidebar {
-            background: var(--card-dark);
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px 0;
-            border-bottom: 2px solid rgba(102, 126, 234, 0.1);
-        }
-
-        .logo h1 {
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .logo p {
-            opacity: 0.7;
-            font-size: 0.9rem;
-        }
-
-        /* Login Form */
-        .login-form {
-            background: var(--accent-gradient);
-            padding: 25px;
-            border-radius: var(--border-radius);
-            margin-bottom: 30px;
-            box-shadow: var(--shadow-light);
-        }
-
-        .login-form h3 {
-            color: white;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 1.2rem;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            transition: var(--transition);
-        }
-
-        .form-group input:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
-            transform: scale(1.02);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 12px;
+            left: -280px;
+            top: 57px;
+            width: 280px;
+            height: calc(100vh - 57px);
             background: white;
-            color: #667eea;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: var(--transition);
+            border-right: 1px solid #e5e7eb;
+            transition: left 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
         }
 
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        .sidebar.show {
+            left: 0;
         }
 
-        /* User Profile Section */
-        .user-profile {
-            background: var(--success-gradient);
+        .sidebar-header {
             padding: 20px;
-            border-radius: var(--border-radius);
-            margin-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .new-chat-btn {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
             color: white;
-            text-align: center;
-            display: none;
-        }
-
-        .user-profile.active {
-            display: block;
-        }
-
-        .profile-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-        }
-
-        .profile-info h3 {
-            margin-bottom: 5px;
-            font-size: 1.3rem;
-        }
-
-        .profile-info p {
-            opacity: 0.9;
-            font-size: 0.9rem;
-        }
-
-        .profile-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .stat-box {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-
-        /* Navigation */
-        .nav-menu {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-bottom: 8px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 15px 16px;
-            text-decoration: none;
-            color: inherit;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
+            border: none;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s;
         }
 
-        .nav-link:hover,
-        .nav-link.active {
-            background: var(--primary-gradient);
-            color: white;
-            transform: translateX(5px);
-            box-shadow: var(--shadow-light);
+        .new-chat-btn:hover {
+            background: #5a67d8;
         }
 
-        .nav-link .icon {
-            margin-right: 12px;
-            font-size: 18px;
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background-color 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background-color: #f9fafb;
+        }
+
+        .menu-item.active {
+            background-color: #f3f4f6;
+            border-left-color: #667eea;
+        }
+
+        .menu-icon {
+            width: 20px;
+            text-align: center;
         }
 
         /* Main Content */
         .main-content {
-            margin-left: 320px;
-            margin-top: 80px;
-            padding: 40px;
-            overflow-y: auto;
-            transition: var(--transition);
-            min-height: calc(100vh - 80px);
+            margin-left: 0;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            transition: margin-left 0.3s ease;
         }
 
-        .content-section {
+        .welcome-section {
+            text-align: center;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            border-color: #d1d5db;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .chatbot-icon { background: #dbeafe; color: #2563eb; }
+        .symptoms-icon { background: #fef3c7; color: #d97706; }
+        .mood-icon { background: #fce7f3; color: #db2777; }
+        .exercise-icon { background: #d1fae5; color: #059669; }
+        .emergency-icon { background: #fee2e2; color: #dc2626; }
+        .music-icon { background: #e0e7ff; color: #6366f1; }
+        .wellness-icon { background: #f3e8ff; color: #9333ea; }
+        .voice-icon { background: #ecfdf5; color: #10b981; }
+        .sleep-icon { background: #fdf2f8; color: #c2410c; }
+        .resources-icon { background: #e6fffa; color: #0d9488; }
+
+        .feature-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .feature-description {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .feature-content {
             display: none;
-            animation: fadeInUp 0.5s ease-out;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f3f4f6;
         }
 
-        .content-section.active {
+        .feature-content.active {
             display: block;
+            animation: slideDown 0.3s ease;
         }
 
-        @keyframes fadeInUp {
+        @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(-10px);
             }
             to {
                 opacity: 1;
@@ -335,727 +297,563 @@
             }
         }
 
-        .section-header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .section-header h2 {
-            font-size: 2.5rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-
-        .section-header p {
-            opacity: 0.8;
-            font-size: 1.1rem;
-        }
-
-        /* Cards */
-        .card {
-            background: var(--card-light);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: var(--shadow-light);
-            margin-bottom: 20px;
-            transition: var(--transition);
-        }
-
-        .dark-mode .card {
-            background: var(--card-dark);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-dark);
-        }
-
-        /* Profile Interface */
-        .profile-interface {
-            display: grid;
-            gap: 20px;
-        }
-
-        .profile-section {
-            background: var(--card-light);
-            padding: 25px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-light);
-        }
-
-        .dark-mode .profile-section {
-            background: var(--card-dark);
-        }
-
-        .profile-section h3 {
-            margin-bottom: 20px;
-            color: #667eea;
-            font-size: 1.3rem;
-        }
-
-        .profile-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 30px;
-        }
-
-        .profile-image-section {
-            text-align: center;
-        }
-
-        .profile-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: var(--primary-gradient);
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .profile-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .change-photo-btn {
-            background: var(--secondary-gradient);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .change-photo-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .profile-form {
-            display: grid;
-            gap: 20px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
+        /* Form Elements */
         .input-group {
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 16px;
         }
 
-        .input-group label {
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #667eea;
-        }
-
-        .input-group input,
-        .input-group select,
-        .input-group textarea {
-            padding: 12px;
-            border: 2px solid rgba(102, 126, 234, 0.2);
-            border-radius: 8px;
+        .input-label {
+            display: block;
+            margin-bottom: 6px;
             font-size: 14px;
-            transition: var(--transition);
-            background: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            color: #374151;
         }
 
-        .dark-mode .input-group input,
-        .dark-mode .input-group select,
-        .dark-mode .input-group textarea {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: white;
         }
 
-        .input-group input:focus,
-        .input-group select:focus,
-        .input-group textarea:focus {
+        input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        /* Settings Interface */
-        .settings-interface {
-            display: grid;
-            gap: 25px;
-        }
-
-        .settings-group {
-            background: var(--card-light);
-            padding: 25px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-light);
-        }
-
-        .dark-mode .settings-group {
-            background: var(--card-dark);
-        }
-
-        .settings-group h3 {
-            margin-bottom: 20px;
-            color: #667eea;
-            font-size: 1.3rem;
-            display: flex;
+        .btn {
+            display: inline-flex;
             align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+            color: #374151;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 4px;
         }
 
-        .settings-group h3 .icon {
-            margin-right: 10px;
-            font-size: 1.5rem;
+        .btn:hover {
+            background: #f9fafb;
         }
 
-        .setting-item {
+        .btn-primary {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .emergency-btn {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 16px 24px;
+            animation: emergencyPulse 2s infinite;
+        }
+
+        @keyframes emergencyPulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+        }
+
+        /* Response Area */
+        .response-area {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            min-height: 80px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Mood Selector */
+        .mood-selector {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+            gap: 8px;
+            margin: 16px 0;
         }
 
-        .setting-item:last-child {
-            border-bottom: none;
-        }
-
-        .setting-info {
+        .mood-btn {
             flex: 1;
-        }
-
-        .setting-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .setting-description {
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        .setting-control {
-            margin-left: 20px;
-        }
-
-        /* Toggle Switch */
-        .toggle-switch {
-            position: relative;
-            width: 50px;
-            height: 25px;
-            background: #ccc;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .toggle-switch.active {
-            background: #667eea;
-        }
-
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            width: 21px;
-            height: 21px;
-            border-radius: 50%;
-            background: white;
-            top: 2px;
-            left: 2px;
-            transition: var(--transition);
-        }
-
-        .toggle-switch.active::after {
-            transform: translateX(25px);
-        }
-
-        /* Range Slider */
-        .range-slider {
-            width: 150px;
-            height: 5px;
-            border-radius: 5px;
-            background: #ddd;
-            outline: none;
-            -webkit-appearance: none;
-        }
-
-        .range-slider::-webkit-slider-thumb {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #667eea;
-            cursor: pointer;
-        }
-
-        .range-slider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #667eea;
-            cursor: pointer;
-            border: none;
-        }
-
-        /* Color Picker */
-        .color-picker {
-            width: 50px;
-            height: 30px;
-            border: none;
+            aspect-ratio: 1;
+            border: 2px solid #e5e7eb;
             border-radius: 8px;
+            background: white;
+            font-size: 24px;
             cursor: pointer;
-        }
-
-        /* Chatbot Interface */
-        .chatbot-container {
-            height: 500px;
+            transition: all 0.2s;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            border: 2px solid rgba(102, 126, 234, 0.2);
-            border-radius: 16px;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.5);
+        .mood-btn:hover {
+            border-color: #667eea;
         }
 
-        .dark-mode .chat-messages {
-            background: rgba(0, 0, 0, 0.2);
+        .mood-btn.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
         }
 
-        .message {
-            margin-bottom: 15px;
-            padding: 12px 16px;
-            border-radius: 18px;
-            max-width: 80%;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        .message.user {
-            background: var(--primary-gradient);
-            color: white;
-            margin-left: auto;
-        }
-
-        .message.bot {
-            background: var(--accent-gradient);
-            color: white;
-            margin-right: auto;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .chat-input {
+        /* Wellness Checklist */
+        .wellness-item {
             display: flex;
-            gap: 10px;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            background: #f9fafb;
+            border-radius: 6px;
+            transition: background-color 0.2s;
         }
 
-        .chat-input input {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid rgba(102, 126, 234, 0.2);
-            border-radius: 12px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.9);
+        .wellness-item:hover {
+            background: #f3f4f6;
         }
 
-        .dark-mode .chat-input input {
-            background: rgba(255, 255, 255, 0.1);
+        .wellness-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+        }
+
+        .points-display {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
             color: white;
-        }
-
-        .send-btn {
-            background: var(--primary-gradient);
-            border: none;
-            border-radius: 12px;
-            padding: 15px 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            transition: var(--transition);
-        }
-
-        .send-btn:hover {
-            transform: scale(1.05);
-        }
-
-        /* Action Buttons */
-        .action-btn {
-            background: var(--primary-gradient);
-            border: none;
-            border-radius: var(--border-radius);
-            color: white;
-            padding: 15px 30px;
-            font-size: 16px;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
             font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            margin: 10px;
+            margin-bottom: 20px;
         }
 
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-dark);
-        }
-
-        .save-btn {
-            background: var(--success-gradient);
-        }
-
-        .cancel-btn {
-            background: var(--warning-gradient);
-        }
-
-        /* Emergency Button */
-        .emergency-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #ff6b6b, #ff5252);
-            border: none;
+        /* Breathing Exercise */
+        .breathing-circle {
+            width: 120px;
+            height: 120px;
+            border: 3px solid #667eea;
             border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #667eea;
+            transition: transform 4s ease-in-out;
+        }
+
+        .breathing-circle.expand {
+            transform: scale(1.4);
+        }
+
+        /* Quote Display */
+        .quote-display {
+            background: #667eea;
             color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            box-shadow: var(--shadow-dark);
-            animation: pulse 2s infinite;
-            z-index: 999;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-style: italic;
+            margin: 16px 0;
         }
 
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(255, 107, 107, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
-            }
+        /* Resource Item */
+        .resource-item {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 0 6px 6px 0;
         }
 
-        /* Modal */
-        .modal {
+        /* Hamburger Menu */
+        .hamburger {
             display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .hamburger span {
+            width: 20px;
+            height: 2px;
+            background: #374151;
+            margin: 2px 0;
+            transition: 0.3s;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .header-controls .profile-menu {
+                order: 1;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mood-selector {
+                flex-wrap: wrap;
+            }
+
+            .mood-btn {
+                min-width: 60px;
+                aspect-ratio: 1;
+            }
+
+            .welcome-title {
+                font-size: 24px;
+            }
+        }
+
+        /* Overlay */
+        .overlay {
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: var(--card-light);
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
-            position: relative;
-            animation: modalSlideIn 0.3s ease-out;
-        }
-
-        .dark-mode .modal-content {
-            background: var(--card-dark);
-            color: white;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .close {
-            position: absolute;
-            right: 20px;
-            top: 15px;
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: #667eea;
-        }
-
-        /* Image Section */
-        .image-section {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .wellness-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 16px;
-            box-shadow: var(--shadow-light);
-            transition: var(--transition);
-        }
-
-        .wellness-image:hover {
-            transform: scale(1.02);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .header {
-                left: 0;
-                margin-left: 320px;
-            }
-            
-            .profile-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-            
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-                padding: 20px 15px;
-            }
-            
-            .header {
-                left: 0;
-                margin-left: 0;
-            }
-            
-            .header-right {
-                gap: 10px;
-            }
-            
-            .settings-btn,
-            .profile-btn,
-            .dark-mode-toggle {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-            
-            .section-header h2 {
-                font-size: 2rem;
-            }
-            
-            .emergency-btn {
-                bottom: 20px;
-                right: 20px;
-                width: 60px;
-                height: 60px;
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .card,
-            .profile-section,
-            .settings-group {
-                padding: 20px;
-            }
-            
-            .modal-content {
-                margin: 10% auto;
-                padding: 20px;
-            }
-            
-            .setting-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .setting-control {
-                margin-left: 0;
-            }
-        }
-
-        /* Mobile Menu Button */
-        .mobile-menu-btn {
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 998;
             display: none;
-            background: var(--primary-gradient);
-            border: none;
-            color: white;
-            padding: 10px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-size: 18px;
         }
 
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
+        .overlay.show {
+            display: block;
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="header-left">
-            <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
-            <h2 id="page-title">Medical FAQ Chatbot</h2>
-        </div>
-        <div class="header-right">
-            <button class="settings-btn" onclick="showSection('settings')">⚙️ Settings</button>
-            <button class="profile-btn" onclick="showSection('profile')">👤 Profile</button>
-            <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
-        </div>
-    </header>
-
-    <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar" id="sidebar">
-            <!-- Logo -->
+    <div class="header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="hamburger" onclick="toggleSidebar()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <div class="logo">
-                <h1>WellnessAI</h1>
-                <p>Your Personal Health Companion</p>
+                <div class="logo-icon">🧠</div>
+                <span>MindCare</span>
             </div>
-
-            <!-- Login Form -->
-            <div class="login-form" id="login-form">
-                <h3>🔐 Secure Login</h3>
-                <div class="form-group">
-                    <input type="text" placeholder="Username" id="username">
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" id="password">
-                </div>
-                <button class="login-btn" onclick="handleLogin()">Login</button>
-            </div>
-
-            <!-- User Profile Section (Hidden by default) -->
-            <div class="user-profile" id="user-profile">
-                <div class="profile-avatar" id="profile-avatar">JD</div>
-                <div class="profile-info">
-                    <h3 id="profile-name">John Doe</h3>
-                    <p id="profile-email">john.doe@email.com</p>
-                </div>
-                <div class="profile-stats">
-                    <div class="stat-box">
-                        <div class="stat-number" id="wellness-points">245</div>
-                        <div class="stat-label">Points</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number" id="streak-days">12</div>
-                        <div class="stat-label">Day Streak</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Navigation Menu -->
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a class="nav-link active" onclick="showSection('chatbot')">
-                        <span class="icon">🤖</span>
-                        Medical FAQ Chatbot
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="showSection('symptoms')">
-                        <span class="icon">🩺</span>
-                        Symptom Checker
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="showSection('mood')">
-                        <span class="icon">😊</span>
-                        Mood Tracker & Journal
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="showSection('mental')">
-                        <span class="icon">🧘</span>
-                        Mental Health Exercises
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="showSection('emergency')">
-                        <span class="icon">🆘</span>
-                        Emergency Panic Button
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="showSection('music')">
-                        <span class="icon">🎵</span>
-                        Mood-Based Music & Quotes
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="showSection('checklist')">
-                        <span class="icon">📋</span>
-                        Daily Wellness Checklist
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="showSection('voice')">
-                        <span class="icon">🎙️</span>
-                        Voice Assistant
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="showSection('sleep')">
-                        <span class="icon">😴</span>
-                        Sleep Tracker with Tips
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" onclick="showSection('locations')">
-                        <span class="icon">📍</span>
-                        Nearby Health Resources
-                    </a>
-                </li>
-            </ul>
         </div>
+        
+        <div class="header-controls">
+            <div class="profile-menu">
+                <button class="profile-btn" onclick="toggleProfileMenu()">
+                    <span>👤</span>
+                </button>
+                <div class="dropdown" id="profileDropdown">
+                    <div class="dropdown-item" onclick="showSettings()">
+                        <span>⚙️</span>
+                        Settings
+                    </div>
+                    <div class="dropdown-item" onclick="showProfile()">
+                        <span>👤</span>
+                        Profile
+                    </div>
+                    <div class="dropdown-item" onclick="showHistory()">
+                        <span>📝</span>
+                        History
+                    </div>
+                    <div class="dropdown-item" onclick="showHelp()">
+                        <span>❓</span>
+                        Help & FAQ
+                    </div>
+                    <div class="dropdown-item" onclick="signOut()">
+                        <span>🚪</span>
+                        Sign Out
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Medical FAQ Chatbot Section -->
-            <div id="chat
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="new-chat-btn" onclick="startNewSession()">
+                <span>+</span> New Wellness Session
+            </button>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="menu-item active" onclick="showSection('dashboard')">
+                <span class="menu-icon">🏠</span>
+                Dashboard
+            </div>
+            <div class="menu-item" onclick="showSection('chatbot')">
+                <span class="menu-icon">🤖</span>
+                Medical Chatbot
+            </div>
+            <div class="menu-item" onclick="showSection('symptoms')">
+                <span class="menu-icon">🩺</span>
+                Symptom Checker
+            </div>
+            <div class="menu-item" onclick="showSection('mood')">
+                <span class="menu-icon">😊</span>
+                Mood Tracker
+            </div>
+            <div class="menu-item" onclick="showSection('exercises')">
+                <span class="menu-icon">🧘</span>
+                Mental Exercises
+            </div>
+            <div class="menu-item" onclick="showSection('emergency')">
+                <span class="menu-icon">🆘</span>
+                Emergency Support
+            </div>
+            <div class="menu-item" onclick="showSection('wellness')">
+                <span class="menu-icon">📋</span>
+                Daily Wellness
+            </div>
+            <div class="menu-item" onclick="showSection('sleep')">
+                <span class="menu-icon">😴</span>
+                Sleep Tracker
+            </div>
+            <div class="menu-item" onclick="showSection('resources')">
+                <span class="menu-icon">📍</span>
+                Health Resources
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1 class="welcome-title">Welcome to MindCare</h1>
+            <p class="welcome-subtitle">Your comprehensive mental health and wellness companion</p>
+            
+            <!-- Feature Grid -->
+            <div class="feature-grid">
+                <!-- Medical FAQ Chatbot -->
+                <div class="feature-card" onclick="toggleFeature('chatbot-content')">
+                    <div class="feature-header">
+                        <div class="feature-icon chatbot-icon">🤖</div>
+                        <div>
+                            <div class="feature-title">Medical FAQ Chatbot</div>
+                            <div class="feature-description">Ask health questions and get AI-powered answers</div>
+                        </div>
+                    </div>
+                    <div class="feature-content" id="chatbot-content">
+                        <div class="input-group">
+                            <input type="text" id="chatInput" placeholder="Ask me any health question...">
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="askChatbot()">Ask Question</button>
+                            <button class="btn" onclick="startVoiceInput()">🎤 Voice Input</button>
+                        </div>
+                        <div class="response-area" id="chatResponse">
+                            Welcome! I'm here to help answer your health questions. Feel free to ask anything about wellness, symptoms, or general health advice.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Symptom Checker -->
+                <div class="feature-card" onclick="toggleFeature('symptoms-content')">
+                    <div class="feature-header">
+                        <div class="feature-icon symptoms-icon">🩺</div>
+                        <div>
+                            <div class="feature-title">Symptom Checker</div>
+                            <div class="feature-description">Enter symptoms and get possible health conditions</div>
+                        </div>
+                    </div>
+                    <div class="feature-content" id="symptoms-content">
+                        <div class="input-group">
+                            <textarea id="symptomInput" placeholder="Describe your symptoms..." rows="3"></textarea>
+                        </div>
+                        <button class="btn btn-primary" onclick="checkSymptoms()">Check Symptoms</button>
+                        <div class="response-area" id="symptomResponse">
+                            Enter your symptoms above to get possible conditions and advice. Remember, this is for informational purposes only.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mood Tracker -->
+                <div class="feature-card" onclick="toggleFeature('mood-content')">
+                    <div class="feature-header">
+                        <div class="feature-icon mood-icon">😊</div>
+                        <div>
+                            <div class="feature-title">Mood Tracker & Journal</div>
+                            <div class="feature-description">Record daily moods and receive personalized suggestions</div>
+                        </div>
+                    </div>
+                    <div class="feature-content" id="mood-content">
+                        <label class="input-label">How are you feeling today?</label>
+                        <div class="mood-selector">
+                            <div class="mood-btn" onclick="selectMood(this, 'very-sad')" data-mood="very-sad">😢</div>
+                            <div class="mood-btn" onclick="selectMood(this, 'sad')" data-mood="sad">😟</div>
+                            <div class="mood-btn" onclick="selectMood(this, 'neutral')" data-mood="neutral">😐</div>
+                            <div class="mood-btn" onclick="selectMood(this, 'happy')" data-mood="happy">😊</div>
+                            <div class="mood-btn" onclick="selectMood(this, 'very-happy')" data-mood="very-happy">😄</div>
+                        </div>
+                        <div class="input-group">
+                            <textarea id="journalEntry" placeholder="Write about your day or feelings..." rows="4"></textarea>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveMoodEntry()">Save Entry</button>
+                        <div class="response-area" id="moodResponse">
+                            Track your mood daily to better understand your emotional patterns.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mental Health Exercises -->
+                <div class="feature-card" onclick="toggleFeature('exercises-content')">
+                    <div class="feature-header">
+                        <div class="feature-icon exercise-icon">🧘</div>
+                        <div>
+                            <div class="feature-title">Mental Health Exercises</div>
+                            <div class="feature-description">Guided breathing, meditation, and stress relief activities</div>
+                        </div>
+                    </div>
+                    <div class="feature-content" id="exercises-content">
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+                            <button class="btn btn-primary" onclick="startBreathingExercise()">Breathing Exercise</button>
+                            <button class="btn btn-primary" onclick="startMeditation()">5-Min Meditation</button>
+                            <button class="btn btn-primary" onclick="stressRelief()">Stress Relief</button>
+                        </div>
+                        <div class="breathing-circle" id="breathingCircle">Breathe</div>
+                        <div class="response-area" id="exerciseResponse">
+                            Choose an exercise above to begin your mental wellness journey.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency Support -->
+                <div class="feature-card" onclick="toggleFeature('emergency-content')">
+                    <div class="feature-header">
+                        <div class="feature-icon emergency-icon">🆘</div>
+                        <div>
+                            <div class="feature-title">Emergency Support</div>
+                            <div class="feature-description">Instantly call for help or send emergency alerts</div>
+                        </div>
+                    </div>
+                    <div class="feature-content" id="emergency-content">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <button class="emergency-btn" onclick="emergencyCall()">🚨 EMERGENCY HELP</button>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;">
+                            <button class="btn" onclick="panicSupport()">Panic Attack Support</button>
+                            <button class="btn" onclick="crisisHotlines()">Crisis Hotlines</button>
+                        </div>
+                        <div class="response-area" id="emergencyResponse">
+                            If you're in immediate danger, please call emergency services. We're here to support you.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Music & Quotes -->
+                <div class="feature-card" onclick="toggleFeature('music-content')">
+                    <div class="feature-header">
+                        <div class="feature-icon music-icon">🎵</div>
+                        <div>
+                            <div class="feature-title">Mood-Based Music & Quotes</div>
+                            <div class="feature-description">Boost your mood with curated audio and motivational quotes</div>
+                        </div>
+                    </div>
+                    <div class="feature-content" id="music-content">
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                            <button class="btn btn-primary" onclick="playMoodMusic('calm')">🎼 Calming Music</button>
+                            <button class="btn btn-primary" onclick="playMoodMusic('energetic')">⚡ Energetic Music</button>
+                            <button class="btn btn-primary" onclick="showMotivationalQuote()">💫 Get Quote</button>
+                        </div>
+                        <div id="quoteDisplay"></div>
+                        <div class="response-area" id="musicResponse">
+                            Let music and positive quotes boost your mood!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Wellness -->
+                <div class="feature-card" onclick="toggleFeature('wellness-content')">
+                    <div class="feature-header">
+                        <div class="feature-icon wellness-icon">📋</div>
+                        <div>
+                            <div class="feature-title">Daily Wellness Checklist</div>
+                            <div class="feature-description">Stay on track with healthy habits and earn points</div>
+                        </div>
+                    </div>
+                    <div class="feature-content" id="wellness-content">
+                        <div class="points-display" id="pointsDisplay">Wellness Points: 0</div>
+                        <div class="wellness-item">
+                            <input type="checkbox" id="water" onchange="updateWellnessPoints()">
+                            <label for="water">Drink 8 glasses of water (+10 points)</label>
+                        </div>
+                        <div class="wellness-item">
+                            <input type="checkbox" id="exercise" onchange="updateWellnessPoints()">
+                            <label for="exercise">Exercise for 30 minutes (+20 points)</label>
+                        </div>
+                        <div class="wellness-item">
+                            <input type="checkbox" id="meditation" onchange="updateWellnessPoints()">
+                            <label for="meditation">Meditate for 10 minutes (+15 points)</label>
+                        </div>
+                        <div class="wellness-item">
+                            <input type="checkbox" id="sleep" onchange="updateWellnessPoints()">
+                            <label for="sleep">Get 7-8 hours of sleep (+25 points)</label>
+                        </div>
+                        <div class="wellness-item">
+                            <input type="checkbox" id="gratitude" onchange="updateWellnessPoints()">
+                            <label for="gratitude">Write 3 things you're grateful for (+10 points)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voice Assistant -->
+                <div class="feature-card" onclick="toggleFeature('voice-content')">
+                    <div class="feature-header">
+                        <div class="feature-icon voice-icon">🎙️</div>
+                        <div>
+                            <div class="feature-title">Voice Assistant</div>
+                            <div class="feature-description">Talk to the assistant using speech input and get voice responses</div>
+                        </div>
+                    </div>
+                    <div class="feature-content" id="voice-content">
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                            <button class="btn btn-primary" onclick="startListening()">🎤 Start Listening</button>
+                            <button class="btn" onclick="stopListening()">⏹️ Stop</button>
+                        </div>
+                        <div class="response-area" id="voiceResponse">
+                            Click "Start Listening" to talk to your wellness assistant!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sleep Tracker -->
+                <div class="feature-card" onclick="toggleFeature('sleep-content')">
+                    <div class="feature-header">
