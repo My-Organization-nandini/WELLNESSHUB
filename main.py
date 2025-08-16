@@ -20,8 +20,8 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 # Use environment variable for Groq API key
-GROQ_API_KEY = os.getenv("GROQ_API_KEY") 
-client = Groq(api_key=GROQ_API_KEY)
+
+client = Groq(api_key="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")
 
 # System prompt for AI
 SYSTEM_PROMPT = """
@@ -37,6 +37,13 @@ async def read_root(request: Request):
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
+
+
+
+@app.get("/chatbot", response_class=HTMLResponse)
+async def test_page(request: Request):
+    return templates.TemplateResponse("chatbot.html", {"request": request})
+
 
 @app.post("/login")
 async def login_post(username: str = Form(...), password: str = Form(...)):
@@ -89,3 +96,12 @@ async def toggle_darkmode(mode: str = Form(...)):
     except Exception as e:
         logger.error(f"Dark mode toggle error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Dark mode toggle error: {str(e)}")
+    
+
+
+
+
+
+
+
+
