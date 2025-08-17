@@ -6,6 +6,7 @@ from fastapi.templating import Jinja2Templates
 from groq import Groq
 import os
 import logging
+from dotenv import load_dotenv
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -21,7 +22,8 @@ templates = Jinja2Templates(directory="templates")
 
 # Use environment variable for Groq API key
 
-client = Groq(api_key="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")
+load_dotenv()  # Load environment variables from .env file
+client = Groq(api_key= os.getenv("GROQ_API_KEY"))
 
 # System prompt for AI
 SYSTEM_PROMPT = """
