@@ -471,34 +471,37 @@
             height: 100%;
         }
 
-        /* Model Selector */
-        .model-selector {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 4px;
-            display: flex;
-            z-index: 1000;
-            /* Increase z-index to avoid overlap */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+       /* Model Selector */
+.model-selector {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 12px; /* slightly smaller */
+    padding: 2px 8px; /* less padding for compact look */
+    display: flex;
+    justify-content: center; /* center the option */
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: fit-content; /* shrink to fit content */
+}
 
-        .model-option {
-            padding: 6px 12px;
-            font-size: 13px;
-            cursor: pointer;
-            border-radius: 12px;
-            transition: background-color 0.2s;
-        }
+/* Noira Option */
+.model-option {
+    padding: 6px 12px; /* smaller button size */
+    font-size: 14px;   /* adjust text size */
+    cursor: pointer;
+    border-radius: 12px;
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
 
-        .model-option.active {
-            background-color: var(--secondary-color);
-            font-weight: 500;
-        }
+.model-option.active {
+    background-color: #f0f0f0; /* highlight active */
+}
 
         /* Chat Area */
        .chat-area {
@@ -3389,16 +3392,7 @@
                         Home
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="DreamCraft.html" class="nav-link">
-                        <div class="nav-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2L14 10L22 12L14 14L12 22L10 14L2 12L10 10L12 2Z" />
-                            </svg>
-                        </div>
-                        DreamCraft
-                    </a>
-                </li>
+                
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-section="soul-safe" aria-label="SoulSafe">
                         <div class="nav-icon">
@@ -3534,13 +3528,7 @@
             </div>
             <!-- Chat Interface -->
             <div class="chat-interface" id="chat-interface">
-                <!-- Model Selector -->
-                <div class="model-selector">
-                    <div class="model-option active" data-model="noira" id="NoiraModel">Noira</div>
-                    <div class="model-option" data-model="dreamcraft" id="DreamCraftModel" title="DreamCraft">DreamCraft
-                    </div>
-
-                </div>
+                
 
 
                 <!-- Chat Area -->
@@ -4802,18 +4790,13 @@
     function showDreamSpacePage() {
         currentSection = 'dream-space';
         updateNavUI();
+pageContent.innerHTML = `
+    <div class="model-selector">
+        <div class="model-option active" data-model="noira" id="NoiraModel" style='background-color:white;'>Noira</div>
+    </div>
+`;
 
-        pageContent.innerHTML = `
-        <div class="model-selector">
-            <div class="model-option active" data-model="noira" id="NoiraModel" style='background-color:white;'>Noira</div>
-            <div class="model-option" data-model="dreamcraft" id="DreamCraftModel" title="DreamCraft">DreamCraft</div>
-        </div>
-        <div class="dreamspace-page" id='Open'>
-            <h2>DreamCraft</h2>
-            <p>Unleash your creativity with AI-powered brainstorming tools. Generate ideas, create stories, or explore new concepts.</p>
-            <button onclick="alert('Start Brainstorming!')">Get Started</button>
-        </div>
-    `;
+
 
         mobileSidebar.classList.remove('active');
         mobileSidebarOverlay.classList.remove('active');
@@ -4839,11 +4822,12 @@ function showSoulSafePage() {
     currentSection = 'soul-safe';
     updateNavUI();
 
-    pageContent.innerHTML = `
+   pageContent.innerHTML = `
     <div class="model-selector">
         <div class="model-option active" data-model="noira" id="NoiraModel">Noira</div>
-        <div class="model-option" data-model="dreamcraft" id="DreamCraftModel" title="DreamCraft">DreamCraft</div>
     </div>
+
+
     <div class="soulsafe-page">
         <h2>SoulSafe: Your Happy Moments</h2>
         <p>A treasure chest of your happiest memories.</p>
@@ -4966,8 +4950,7 @@ function showSoulSafePage() {
             sendMessage();
         }
     });
-
- modelOptions.forEach(option => {
+modelOptions.forEach(option => {
     option.addEventListener('click', () => {
         modelOptions.forEach(opt => opt.classList.remove('active'));
         option.classList.add('active');
@@ -4976,9 +4959,6 @@ function showSoulSafePage() {
         if (selectedModel === 'noira') {
             currentModel = 'noira';
             showChatInterface();
-        } else if (selectedModel === 'dreamcraft') {
-            currentModel = 'dreamcraft';
-            window.location.href = 'DreamCraft.html'; // Redirect to the new page
         }
 
         if (activeChat) {
@@ -4986,7 +4966,6 @@ function showSoulSafePage() {
         }
     });
 });
-
 
     addBtn.addEventListener('click', () => {
         if (!activeChat || activeChat.messages.length > 0) {
