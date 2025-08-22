@@ -3664,9 +3664,22 @@
                 <div class="preference-section">
                     <label for="profile-picture-options">Choose Profile Picture</label>
                     <div class="selected-profile-picture">
-                        <img id="profile-picture-preview" src="\static\image\G-1.jpg" alt="Profile Picture">
+                        <img id="profile-picture-preview" src="/static/image/G-1.jpg" alt="Profile Picture">
                     </div>
                     <div class="profile-picture-options" id="profile-picture-options">
+                        <img src="/static/image/G-2.jpg" alt="Profile Picture 1" class="profile-picture-option"
+                            data-value="G-2.jpg">
+                        <img src="/static/image/M1.jpg" alt="Profile Picture 2" class="profile-picture-option"
+                            data-value="M1.jpg">
+                        <img src="/static/image/m2.jpg" alt="Profile Picture 3" class="profile-picture-option"
+                            data-value="m2.jpg">
+                        <img src="/static/image/G-1.jpg" alt="Profile Picture 4" class="profile-picture-option"
+                            data-value="G-1.jpg">
+                        <img src="/static/image/new1.jpg" alt="Profile Picture 3" class="profile-picture-option"
+                            data-value="new1.jpg">
+                        <img src="/stati/\image/new2.jpg" alt="Profile Picture 4" class="profile-picture-option"
+                            data-value="new2.jpg">    
+
                        
                     </div>
                 </div>
@@ -3716,6 +3729,140 @@
             <div class="message error" id="error-message">Please fill all required fields.</div>
         </div>
     </div>
+
+    <script>
+    // Example: Use your logged-in user_id (replace "1" with real user ID from login)
+    const userId = 1;
+
+    // --- My Account (just opens profile page) ---
+    document.querySelector('[data-tooltip="My account"]').addEventListener("click", async (e) => {
+        e.preventDefault();
+        window.location.href = "/account"; // this loads account.html
+    });
+
+    // --- Personalize (change theme to dark/light) ---
+    document.querySelector('[data-tooltip="Personalize"]').addEventListener("click", async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("user_id", userId);
+        formData.append("theme", "dark"); // or "light", later connect to toggle
+
+        const res = await fetch("/personalize", { method: "POST", body: formData });
+        const data = await res.json();
+        alert("Theme updated: " + data.theme);
+    });
+
+    // --- Notifications (enable/disable) ---
+    document.querySelector('[data-tooltip="Notifications"]').addEventListener("click", async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("user_id", userId);
+        formData.append("enabled", true); // or false, based on user choice
+
+        const res = await fetch("/notifications", { method: "POST", body: formData });
+        const data = await res.json();
+        alert("Notifications updated: " + data.notifications_enabled);
+    });
+</script>
+<script>
+    // Helper function to send POST requests
+    async function postData(url, data) {
+        const res = await fetch(url, { method: "POST", body: data });
+        return await res.json();
+    }
+
+    // Get user_id from localStorage (set during login)
+    function getUserId() {
+        return localStorage.getItem("user_id");
+    }
+
+    // --- My Account ---
+    document.querySelector('[data-tooltip="My account"]').addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "/account";
+    });
+
+    // --- Personalize ---
+    document.querySelector('[data-tooltip="Personalize"]').addEventListener("click", async (e) => {
+        e.preventDefault();
+        const fd = new FormData();
+        fd.append("user_id", getUserId());
+        fd.append("theme", "dark"); // change later with toggle
+        const data = await postData("/personalize", fd);
+        alert("Theme updated: " + data.theme);
+    });
+
+    // --- Notifications ---
+    document.querySelector('[data-tooltip="Notifications"]').addEventListener("click", async (e) => {
+        e.preventDefault();
+        const fd = new FormData();
+        fd.append("user_id", getUserId());
+        fd.append("enabled", true); // toggle in your UI
+        const data = await postData("/notifications", fd);
+        alert("Notifications updated: " + data.notifications_enabled);
+    });
+
+    // --- Appearance ---
+    document.querySelector('[data-tooltip="Appearance"]').addEventListener("click", async (e) => {
+        e.preventDefault();
+        const fd = new FormData();
+        fd.append("mode", "dark");
+        const data = await postData("/appearance", fd);
+        alert("Appearance: " + data.appearance);
+    });
+
+    // --- Purchases ---
+    document.querySelector('[data-tooltip="Purchases"]').addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "/purchases";
+    });
+
+    // --- Settings ---
+    document.querySelector('[data-tooltip="Settings"]').addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "/settings";
+    });
+
+    // --- Voice Support ---
+    document.querySelector('[data-tooltip="Voice Support"]').addEventListener("click", async (e) => {
+        e.preventDefault();
+        const fd = new FormData();
+        fd.append("language", "en");
+        const data = await postData("/voice_support", fd);
+        alert("Voice support: " + data.voice_language);
+    });
+
+    // --- Language ---
+    document.querySelector('[data-tooltip="Language"]').addEventListener("click", async (e) => {
+        e.preventDefault();
+        const fd = new FormData();
+        fd.append("user_id", getUserId());
+        fd.append("language", "en");
+        const data = await postData("/language", fd);
+        alert("Language: " + data.language);
+    });
+
+    // --- Incognito ---
+    document.querySelector('[data-tooltip="Incognito"]').addEventListener("click", async (e) => {
+        e.preventDefault();
+        const fd = new FormData();
+        fd.append("user_id", getUserId());
+        fd.append("enabled", true);
+        const data = await postData("/incognito", fd);
+        alert("Incognito mode: " + data.incognito);
+    });
+
+    // --- Logout ---
+    document.querySelector('[data-tooltip="Logout"]').addEventListener("click", async (e) => {
+        e.preventDefault();
+        const data = await postData("/logout", new FormData());
+        localStorage.removeItem("user_id");
+        alert(data.message);
+        window.location.href = "/login";
+    });
+</script>
+
+
 </body>
 <script>
 
